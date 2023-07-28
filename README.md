@@ -6,7 +6,7 @@ Brug allows you to transform function calls for a implementation to be turned in
 
 An example speaks louder than 2 words:
 
-```
+```rust
 use brug::{Performer, tokio::OneShot};
 
 struct MyStruct;
