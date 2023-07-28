@@ -1,0 +1,16 @@
+[package]
+name = "brug"
+description = "enum command generation for implementation blocks"
+categories = ["rpc"]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+brug-macros = { version = "0.1.0", optional = true, path = "../brug-macros" }
+async-trait = "0.1"
+tokio = { version = "1", features = ["sync"], optional = true }
+
+[features]
+macros = ["brug-macros"]
+tokio = ["dep:tokio"]

@@ -1,0 +1,12 @@
+[package]
+name = "brug-example"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+# no reason to publish the example package
+publish = false
+
+[dependencies]
+brug = { version = "0.1.0", features = ["macros", "tokio"], path = "../brug" }
+tokio = { version = "1", features = ["sync", "macros", "rt-multi-thread"] }
