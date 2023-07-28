@@ -2,7 +2,7 @@ use proc_macro::{TokenStream};
 use std::fmt::{Debug, Formatter};
 use proc_macro2::{Ident, Span};
 use quote::{format_ident, quote, ToTokens};
-use syn::{FnArg, ImplItem, ItemImpl, parse_macro_input, Pat, PathArguments, ReturnType, Type};
+use syn::{FnArg, ImplItem, ItemImpl, parse_macro_input, Pat, ReturnType, Type};
 
 struct Item {
     name: String,

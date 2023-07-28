@@ -33,6 +33,17 @@ pub enum MyStructCommand<T: ::brug::Transport> {
 }
 
 #[::brug::async_trait]
+impl ::brug::Performer<MyStructCommand> for MyStruct {
+  async fn perform(&mut self, command: MyStructCommand) {
+    match command {
+      MyStructCommand::Add(a, b, resp) => {
+        ::brug::Sender::send(resp, self.add(a, b)).await;
+      }
+    }
+  }
+}
+
+#[::brug::async_trait]
 pub trait MyStructFacade<T: ::brug::Transport> {
   async fn add(&self, a: usize, b: usize) -> usize {
     let (s, r) = T::pair();
