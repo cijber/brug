@@ -5,6 +5,7 @@ categories = ["rpc"]
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
+repository = "https://github.com/cijber/brug/"
 
 [dependencies]
 brug-macros = { version = "0.1.0", optional = true, path = "../brug-macros" }
