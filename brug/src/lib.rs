@@ -49,6 +49,7 @@ pub mod tokio {
         type Sender<T: Send> = oneshot::Sender<T>;
         type Receiver<T: Send> = oneshot::Receiver<T>;
 
+        #[inline(always)]
         fn pair<T: Send>() -> (Self::Sender<T>, Self::Receiver<T>) {
             oneshot::channel()
         }
@@ -56,6 +57,7 @@ pub mod tokio {
 
     #[async_trait]
     impl<T: Send> Sender<T> for oneshot::Sender<T> {
+        #[inline(always)]
         async fn send(self, data: T) {
             let _ = oneshot::Sender::send(self, data);
         }
@@ -63,8 +65,39 @@ pub mod tokio {
 
     #[async_trait]
     impl<T: Send> Receiver<T> for oneshot::Receiver<T> {
+        #[inline(always)]
         async fn receive(self) -> Option<T> {
             self.await.ok()
+        }
+    }
+}
+
+#[cfg(feature = "kanal")]
+pub mod kanal {
+    use kanal::{OneshotAsyncReceiver, OneshotAsyncSender};
+    use crate::{Receiver, Sender, Transport};
+
+    pub struct OneShot;
+
+    impl Transport for OneShot {
+        type Sender<T: Send> = kanal::OneshotAsyncSender<T>;
+        type Receiver<T: Send> = kanal::OneshotAsyncReceiver<T>;
+
+        #[inline(always)]
+        fn pair<T: Send>() -> (Self::Sender<T>, Self::Receiver<T>) {
+            kanal::oneshot_async()
+        }
+    }
+
+    impl<T> Receiver<T> for OneshotAsyncReceiver<T> {
+        async fn receive(self) -> Option<T> {
+            self.recv().await.ok()
+        }
+    }
+
+    impl<T> Sender<T> for OneshotAsyncSender<T> {
+        async fn send(self, data: T) {
+            let _ = OneshotAsyncSender::send(self, data).await;
         }
     }
 }
