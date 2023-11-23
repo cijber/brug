@@ -76,6 +76,7 @@ pub mod tokio {
 pub mod kanal {
     use kanal::{OneshotAsyncReceiver, OneshotAsyncSender};
     use crate::{Receiver, Sender, Transport};
+    use async_trait::async_trait;
 
     pub struct OneShot;
 
@@ -89,13 +90,15 @@ pub mod kanal {
         }
     }
 
-    impl<T> Receiver<T> for OneshotAsyncReceiver<T> {
+    #[async_trait]
+    impl<T: Send> Receiver<T> for OneshotAsyncReceiver<T> {
         async fn receive(self) -> Option<T> {
             self.recv().await.ok()
         }
     }
 
-    impl<T> Sender<T> for OneshotAsyncSender<T> {
+    #[async_trait]
+    impl<T: Send> Sender<T> for OneshotAsyncSender<T> {
         async fn send(self, data: T) {
             let _ = OneshotAsyncSender::send(self, data).await;
         }

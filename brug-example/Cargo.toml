@@ -8,5 +8,5 @@ license = "MIT"
 publish = false
 
 [dependencies]
-brug = { version = "0.1.0", features = ["macros", "tokio"], path = "../brug" }
+brug = { version = "0.2", features = ["macros", "tokio", "kanal"], path = "../brug" }
 tokio = { version = "1", features = ["sync", "macros", "rt-multi-thread"] }
