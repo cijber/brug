@@ -155,7 +155,8 @@ pub fn performer(_tag: TokenStream, input: TokenStream) -> TokenStream {
                 match command {
                     #(
                         #command_name::#enum_names(#(#safe_input_names,)* resp) => {
-                            ::brug::Sender::send(resp, self.#names(#(#safe_input_names),*)#awaits).await;
+                            let ret = self.#names(#(#safe_input_names),*)#awaits;
+                            ::brug::Sender::send(resp, ret).await;
                         }
                     )*
                 }
